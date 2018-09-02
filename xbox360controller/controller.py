@@ -95,6 +95,7 @@ class Axis:
         self._value_x = 0
         self._value_y = 0
         self.when_moved = None
+        self.when_released = None
 
     def __repr__(self):
         return "<xbox360controller.{cls} ({name})>".format(
@@ -336,6 +337,10 @@ class Xbox360Controller:
             if axis.when_moved is not None and abs(val) > self.axis_threshold \
                     and callable(axis.when_moved):
                 axis.when_moved(axis)
+
+            if axis.when_released is not None and abs(val) == 0 \
+                    and callable(axis.when_released):
+                axis.when_released(axis)
 
     @property
     def driver_version(self):
